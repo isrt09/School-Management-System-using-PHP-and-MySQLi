@@ -83,9 +83,13 @@
 										<td>{$i}</td>
 										<td>{$row["class_name"]}</td>
 										<td>{$row["class_section"]}</td>
-										<td><a href='' class='btnr'>Delete</a></td>
+										<td><a href='delete.php?id={$row['class_id']}' class='btnr'>Delete</a></td>
 									</tr>";
 								}								
+							}
+
+							if(isset($_GET['mes'])){
+								echo "<div class='success'>Deleted Successfully</div>";
 							}
 						 ?>						
 					</table>

@@ -1,0 +1,1 @@
+# School-Management-System-using-PHP-and-MySQLi

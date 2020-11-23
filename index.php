@@ -1,52 +1,52 @@
+<?php
+	session_start();
+    include 'dbconnect.php'; 	
+ ?>
+
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>School Management System - Tutor Joe's</title>
+		<!-- Required meta tags -->
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	    <!-- Bootstrap CSS -->
+	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body class="back">
-		<div class="navbar">
-			<ul class="list">
-				<b style="color:white;float:left;line-height:50px;margin-left:15px;font-family:Cooper Black;">
-				School Management System</b>				
-				<li><a href="admin_home.php">Admin Home</a></li>
-				<li><a href="change_pass.php">Settings</a></li>
-				<li><a href="logout.php">Logout</a></li>									
-				<li><a href="teacher_home.php">Teacher Home</a></li>
-				<li><a href="teacher_change_pass.php">Settings</a></li>
-				<li><a href="logout.php">Logout</a></li>									
-				<li><a href="index.php">Admin</a></li>
-				<li><a href="teacher_login.php">Teacher</a></li>
-				<li><a href="contact.php">Contact Us</a></li>';			
-			</ul>
-		</div>		
+		<?php include 'navbar.php'; ?>			
 		<img src="img/b1.jpg" width="800">		
 		<div class="login">
 			<h1 class="heading">Admin Login</h1>
-			<div class="log">					
+			<?php 
+				if(isset($_POST['login'])){
+					$sql = "select * from tbl_admin where admin_user='{$_POST["admin_user"]}' and admin_password='{$_POST["admin_password"]}'";
+					$res = $db->query($sql);	
+					if($res->num_rows>0)
+					{
+						$row = $res->fetch_assoc();
+						$_SESSION['admin_id'] = $row['admin_id'];
+						$_SESSION['username'] = $row['admin_user'];
+						echo "<script>window.open('admin_home.php','_self');</script>";	
+					}else{
+						echo "<div class='error'>Invalid Username or Password</div>";
+					}						
+				}
+				if(isset($_GET["mes"]))
+				{
+					echo "<div class='error'>{$_GET["mes"]}</div>";
+				}			
+			 ?>	
+			<div class="log">				
 				<form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>">
 					<label>User Name</label><br>
-					<input type="text" name="aname" required class="input"><br><br>
+					<input type="text" name="admin_user" required class="input"><br><br>
 					<label>Password </label><br>
-					<input type="password" name="apass" required class="input"><br>
+					<input type="password" name="admin_password" required class="input"><br>
 					<button type="submit" class="btn" name="login">Login Here</button>
 				</form>
 			</div>
 		</div>
-		<div class="footer">
-			<footer><p>Copyright &copy; Tutor Joe's </p></footer>
-		</div>
-		<script src="js/jquery.js"></script>
-		<script>
-			$(document).ready(function(){
-				$(".error").fadeTo(1000, 100).slideUp(1000, function(){
-						$(".error").slideUp(1000);
-				});
-				
-				$(".success").fadeTo(1000, 100).slideUp(1000, function(){
-						$(".success").slideUp(1000);
-				});
-			});
-		</script>					
-	</body>
-</html>
+<?php include 'footer.php'; ?>		
